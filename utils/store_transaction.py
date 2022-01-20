@@ -52,6 +52,3 @@ def store_transaction(transaction: dict):
 	
 	except:
 		return 0
-	
-
-

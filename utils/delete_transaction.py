@@ -40,7 +40,3 @@ def remove_last(transaction: dict):
 		print(e)
 		return 0
 	
-
-	
-
-
