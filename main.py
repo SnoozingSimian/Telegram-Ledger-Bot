@@ -34,11 +34,33 @@ logging.basicConfig(level=logging.DEBUG,
 updater = Updater(token=API_KEY, use_context=True)
 dispatcher = updater.dispatcher
 
+# define commands here
+
 # start message
 def start(update: Update, context: CallbackContext):
 	context.bot.send_message(chat_id=update.effective_chat.id, 
 				 text=f"This is leger_bot version {VERSION}\nI hope I can be of use")
 
+
+# add support for deleting last entry
+def delete_last(update: Update, context: CallbackContext):
+	transaction = parse_transaction(update)
+	remove = remove_last(transaction)
+	
+	if remove == 1:
+		context.bot.send_message(chat_id=update.effective_chat.id,
+				 text="Removed last entry.")
+	
+	elif remove == 0:
+		context.bot.send_message(chat_id=update.effective_chat.id,
+				 text="Could not remove last entry.")
+
+def summary():
+	#stub
+    return 
+
+
+# define message handling here
 # our bot needs to simply parse input text into items and costs
 # for now, the input format should be <item> <cost>
 def transaction(update: Update, context: CallbackContext):
@@ -53,18 +75,6 @@ def transaction(update: Update, context: CallbackContext):
 		context.bot.send_message(chat_id=update.effective_chat.id,
 				 	 text="I could not understand that, the format is <item> <price>")
 
-# add support for deleting last entry
-def delete_last(update: Update, context: CallbackContext):
-	transaction = parse_transaction(update)
-	remove = remove_last(transaction)
-	
-	if remove == 1:
-		context.bot.send_message(chat_id=update.effective_chat.id,
-				 text="Removed last entry.")
-	
-	elif remove == 0:
-		context.bot.send_message(chat_id=update.effective_chat.id,
-				 text="Could not remove last entry.")
 
 # handlers handle different types of actions by user
 start_handler = CommandHandler('start', start)
